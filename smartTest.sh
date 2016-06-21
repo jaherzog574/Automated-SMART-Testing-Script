@@ -16,7 +16,7 @@ logfile=/var/log/autoSmartTest.log          # Where your log file should be stor
 
 touch $logfile # Creates log file
 
-smartctl -t $1 /dev/sda > /dev/null
+sudo smartctl -t $1 /dev/sda > /dev/null
 
 
 # Checks if the command worked correctly.
@@ -42,7 +42,7 @@ fi
 echo "$(date) - $1 SMART self test complete, sending log to administrator" >> $logfile
 
 # Sends email to administrator with test results in the message body
-( smartctl -l selftest /dev/sda; echo "Full SMART status:"; smartctl -a /dev/sda ) | mailx -s "$1 SMART test completed on $(hostname)." $email
+( sudo smartctl -l selftest /dev/sda; echo "Full SMART status:"; sudo smartctl -a /dev/sda ) | mailx -s "$1 SMART test completed on $(hostname)." $email
 
 #Checks if the email sent properly and records it in the log
 if [ $? -eq 0 ]
